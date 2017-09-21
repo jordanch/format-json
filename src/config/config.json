@@ -1,0 +1,6 @@
+{
+    "outputDest": {
+        "dev": "output", 
+        "test": "test_output"
+    }
+}
