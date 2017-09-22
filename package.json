@@ -4,12 +4,15 @@
   "description": "",
   "main": "formatme.js",
   "scripts": {
-    "test": "mocha src/formatme.spec.js"
+    "clean:test": "rimraf test_output/*",
+    "test": "npm run clean:test && npm run mocha",
+    "mocha": "mocha src/json/formatme.spec.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "chai": "latest",
-    "mocha": "latest:"
+    "rimraf": "^2.6.2",
+    "mocha": "latest"
   }
 }

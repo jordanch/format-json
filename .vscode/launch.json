@@ -9,6 +9,14 @@
             "request": "launch",
             "name": "Launch Program",
             "program": "${file}"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Mocha Debug",
+            "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
+            "args": ["${file}"],
+            "skipFiles": ["node_modules/*"]
         }
     ]
 }

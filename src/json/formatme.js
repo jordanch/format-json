@@ -1,22 +1,41 @@
 const fs = require('fs');
 const path = require('path');
 
-const settings = require('../../config/config.json');
-const OUTPUT_DIR = settings.outputDest.dev;
+module.exports.application = (settings) => {
 
-let extractNodeAndWrite = (source, nodesToExtract) => {
-    for (key of Object.keys(source)) {
-        if (source.hasOwnProperty(key)) {
-            if (nodesToExtract.map(i => i.toUpperCase()).indexOf(key.toUpperCase()) > -1) {
-                write(key, source);
+    const OUTPUT_DIR = settings.outputDest;
+    /**
+     * 
+     * @param {object} source the source object 
+     * @param {array} nodesToExtract the top level nodes to extract into separate files. 
+     * Strings can be formatted with dot notation for nested nodes ex. "topLevel.lowerLevel"
+     */
+    const extractNodeAndWrite = (source, nodesToExtract) => {
+        for (identifier of nodesToExtract) {
+            const keys = identifier.split('.');
+            let objectToWrite = source;
+            let index = 0;
+            let keysLength = keys.length;
+            for (key of keys) {
+                objectToWrite = objectToWrite[key];
+                if (index === keysLength - 1) {
+                    writeToDisk(identifier, objectToWrite);
+                } else {
+                    index++;
+                }
             }
         }
     }
-}
 
-let write = (nodeKey, source) => {
-    fs.writeFileSync(path.join(OUTPUT_DIR, `${nodeKey}.json`), 
-        JSON.stringify(source[nodeKey], null, 4), {encoding: 'UTF8'});
-}
+    /**
+     * 
+     * @param {string} fileName the name of the file to be written.
+     * @param {object} source the source object to write.
+     */
+    const writeToDisk = (fileName, source) => {
+        fs.writeFileSync(path.join(OUTPUT_DIR, `${fileName}.json`),
+            JSON.stringify(source, null, 4), { encoding: 'UTF8' });
+    }
 
-module.exports.extractNodeAndWrite = extractNodeAndWrite;
+    return { extractNodeAndWrite };
+}

@@ -1,17 +1,16 @@
 const fs = require('fs');
 const settings = require('./config/config.json');
-const { extractNodeAndWrite } = require('./json/formatme');
-//////////////////////////////
+const { application } = require('./json/formatme');
 // development mock input
 const INPUT = './data/FundExport_20170825_112959.json';
-const TOP_LEVELS = ['fundList'];
-const OUTPUT_DIR = settings.outputDest.dev;
-
-//////////////////////////////
+const TOP_LEVELS = ['statistics.returns.valueDate'];
+const SETTINGS = require('./config/config.json');
+const OUTPUT_DIR = SETTINGS.outputDest.dev;
 
 const rawInput = fs.readFileSync(INPUT, {encoding: 'UTF8'});
 const parsedInput = JSON.parse(rawInput);
 
-extractNodeAndWrite(parsedInput, TOP_LEVELS);
+const app = application({outputDest: OUTPUT_DIR});
+app.extractNodeAndWrite(parsedInput, TOP_LEVELS)
 
 
