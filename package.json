@@ -12,7 +12,9 @@
   "license": "ISC",
   "devDependencies": {
     "chai": "latest",
+    "mocha": "latest",
     "rimraf": "^2.6.2",
-    "mocha": "latest"
+    "source-map-support": "^0.4.18",
+    "webpack": "latest"
   }
 }
